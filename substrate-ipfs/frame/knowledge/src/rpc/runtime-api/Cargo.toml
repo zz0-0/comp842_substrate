@@ -1,0 +1,14 @@
+[package]
+name = "pallet-knowledge-runtime-api"
+authors = ['Stefan Lang <https://github.com/langi667>']
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+sp-api = { default-features = false, version = "4.0.0-dev", path = "../../../../primitives/api" }
+sp-std = { default-features = false, version = "5.0.0", path = "../../../../primitives/std" }
+
+[features]
+default = ["std"]
+std = ["sp-api/std"]

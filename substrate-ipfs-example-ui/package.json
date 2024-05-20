@@ -1,0 +1,20 @@
+{
+  "name": "substrate-ipfs-file-ui",
+  "version": "1.0.0",
+  "description": "Example client for IPFS Subtrate integration",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel src/index.html"
+  },
+  "keywords": [
+    "IPFS",
+    "Substrate",
+    "Web",
+    "JavaScript"
+  ],
+  "author": "Sascha Dobschal @ TDSoftware",
+  "license": "Apache 2.0",
+  "devDependencies": {
+    "parcel": "^2.8.3"
+  }
+}

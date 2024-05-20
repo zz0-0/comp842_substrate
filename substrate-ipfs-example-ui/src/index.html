@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPFS & Substrate</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/app.js" defer type="module"></script>
+</head>
+
+<body>
+    <div>
+        <h1>IPFS & Substrate</h1>
+        <p>
+            This is an example application that shows how to use IPFS with Substrate from a client perspective.
+        </p>
+        <p>
+            It just fetches the IPFS URL of the wanted file based on the entered related meta data from the Substrate
+            chain, and redirect to it.
+        </p>
+        <h2>Substrate Node</h2>
+        <input id="node-url-input" type="text" placeholder="URL">
+        <h2>Fetch File by Meta Data</h2>
+        <form id="fetch-file-form">
+            <input id="meta-data-input" type="text" placeholder="Meta data" autofocus>
+            <button type="submit">Open</button>
+        </form>
+    </div>
+</body>
+
+</html>
