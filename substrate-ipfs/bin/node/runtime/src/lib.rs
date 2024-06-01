@@ -105,8 +105,11 @@ use constants::{currency::*, time::*};
 use sp_runtime::generic::Era;
 
 // Import pallets
-pub use pallet_tds_ipfs_core;
+pub use pallet_knowledge_runtime_api;
+pub use pallet_knowledge;
+pub use pallet_knowledge_market;
 pub use pallet_tds_ipfs;
+pub use pallet_tds_ipfs_core;
 pub use pallet_tds_ipfs_runtime_api;
 
 /// Generated voter bag information.
@@ -1615,6 +1618,24 @@ impl pallet_tds_ipfs::Config for Runtime {
 	type IpfsRandomness = RandomnessCollectiveFlip;
 }
 
+parameter_types! {
+	pub const MaxStringLength: u32 = 20;
+}
+
+impl pallet_knowledge::Config for Runtime {
+	// type AuthorityId = pallet_tds_ipfs::crypto::TestAuthId;
+	type RuntimeEvent = RuntimeEvent;
+	type MaxLength = MaxStringLength;
+	type KnowledgeBlockId = u32;
+}
+
+impl pallet_knowledge_market::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type ResourceId = u32;
+	type Resource = pallet_knowledge::Pallet<Runtime>;
+	type Currency = Balances;
+}
+
 impl pallet_whitelist::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
 	type RuntimeCall = RuntimeCall;
@@ -1776,6 +1797,8 @@ construct_runtime!(
 		MessageQueue: pallet_message_queue,
 		IpfsCore: pallet_tds_ipfs_core,
 		Ipfs: pallet_tds_ipfs,
+		Knowledge: pallet_knowledge,
+		KnowledgeMarket: pallet_knowledge_market,
 	}
 );
 
@@ -1963,6 +1986,13 @@ impl_runtime_apis! {
 			Ipfs::get_file_url_for_meta_data(meta_data)
 		}
 	}
+
+	// impl pallet_knowledge_runtime_api::KnowledgeApi<Block> for Runtime {
+	// 	fn get_value() -> u32 {
+	// 		Knowledge::get_value()
+	// 		// .unwrap_or(0)
+	// 	}
+	// }
 
 	impl fg_primitives::GrandpaApi<Block> for Runtime {
 		fn grandpa_authorities() -> GrandpaAuthorityList {

@@ -96,5 +96,7 @@ pub fn config_endowed(code: Option<&[u8]>, extra_endowed: Vec<AccountId>) -> Gen
 		nomination_pools: Default::default(),
 		ipfs: Default::default(),
 		ipfs_core: Default::default(),
+		// knowledge: Default::default(),
+		// knowledge_market: Default::default(),
 	}
 }

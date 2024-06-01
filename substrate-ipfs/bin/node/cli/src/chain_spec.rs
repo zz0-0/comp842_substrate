@@ -374,6 +374,8 @@ pub fn testnet_genesis(
 		},
 		ipfs: Default::default(),
 		ipfs_core: Default::default(),
+		// knowledge: Default::default(),
+		// knowledge_market: Default::default(),
 	}
 }
 

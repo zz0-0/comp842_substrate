@@ -3640,6 +3640,9 @@ dependencies = [
  "pallet-identity",
  "pallet-im-online",
  "pallet-indices",
+ "pallet-knowledge",
+ "pallet-knowledge-market",
+ "pallet-knowledge-runtime-api",
  "pallet-lottery",
  "pallet-membership",
  "pallet-message-queue",
@@ -6199,6 +6202,14 @@ dependencies = [
  "sp-io",
  "sp-keystore",
  "sp-runtime",
+ "sp-std",
+]
+
+[[package]]
+name = "pallet-knowledge-runtime-api"
+version = "0.1.0"
+dependencies = [
+ "sp-api",
  "sp-std",
 ]
 
