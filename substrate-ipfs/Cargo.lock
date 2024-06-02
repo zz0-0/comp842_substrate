@@ -6174,6 +6174,7 @@ dependencies = [
  "frame-system",
  "log",
  "pallet-randomness-collective-flip",
+ "pallet-tds-ipfs",
  "pallet-tds-ipfs-core",
  "parity-scale-codec",
  "scale-info",

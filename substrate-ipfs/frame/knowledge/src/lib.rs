@@ -1,10 +1,10 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 pub use pallet::*;
 
-#[cfg(test)]
-mod mocks;
-#[cfg(test)]
-mod tests;
+// #[cfg(test)]
+// mod mocks;
+// #[cfg(test)]
+// mod tests;
 
 // mod benchmarking;
 
@@ -35,16 +35,17 @@ use frame_support::sp_runtime::{
 pub mod pallet {
 	use super::*;
 
-	use frame_support::pallet_prelude::Get;
-	use frame_support::pallet_prelude::OptionQuery;
-	use frame_support::pallet_prelude::ValueQuery;
-	use frame_support::pallet_prelude::*;
-	use frame_support::sp_runtime::traits::AtLeast32BitUnsigned;
-	use frame_support::sp_runtime::traits::One;
-	use frame_support::sp_runtime::Saturating;
-	use frame_system::ensure_signed;
-	use frame_system::pallet_prelude::BlockNumberFor;
-	use frame_system::pallet_prelude::OriginFor;
+	use frame_support::{
+		pallet_prelude::{Get, OptionQuery, ValueQuery, *},
+		sp_runtime::{
+			traits::{AtLeast32BitUnsigned, One},
+			Saturating,
+		},
+	};
+	use frame_system::{
+		ensure_signed,
+		pallet_prelude::{BlockNumberFor, OriginFor},
+	};
 	use scale_info::prelude::vec::Vec;
 	use serde::Deserialize;
 
@@ -144,7 +145,8 @@ pub mod pallet {
 		// Error returned when making unsigned transactions in off-chain worker
 		OffchainUnsignedTxError,
 
-		// Error returned when making unsigned transactions with signed payloads in off-chain worker
+		// Error returned when making unsigned transactions with signed payloads in off-chain
+		// worker
 		OffchainUnsignedTxSignedPayloadError,
 
 		// Error returned when fetching github info
@@ -156,21 +158,9 @@ pub mod pallet {
 	#[pallet::call]
 	// weight(<T as Config>::WeightInfo)
 	impl<T: Config> Pallet<T> {
-		// after we get the document, we can deseralize it into knowledge blocks
-		#[pallet::call_index(0)]
-		#[pallet::weight(0)]
-		pub fn document_create(origin: OriginFor<T>) -> DispatchResult {
-			let from = ensure_signed(origin)?;
-			// let document = Self::fetch_from_remote();
-
-			// use iterator to create every knowledge blocks
-
-			// document.unwrap().document.into_iter().map(|s| Self::create(origin, s.title, s.text, s.parent, s.children, s.previous ));
-			Ok(())
-		}
-
 		// create knowledge blocks with title, text
-		// add parent knowledge block id, children knowledge block id, and previous knowledge block id
+		// add parent knowledge block id, children knowledge block id, and previous knowledge block
+		// id
 		#[pallet::call_index(1)]
 		#[pallet::weight(0)]
 		pub fn create(

@@ -26,6 +26,7 @@ sp-std = { default-features = false, version = "5.0.0", path = "../../primitives
 sp-runtime = { default-features = false, version = "7.0.0", path = "../../primitives/runtime" }
 log = { default-features = false, version = "0.4" }
 pallet-tds-ipfs-core = { default-features = false, version = "4.0.0-dev", path = "../../frame/tds-ipfs-core" }
+pallet-tds-ipfs = { default-features = false, version = "4.0.0-dev", path = "../../frame/tds-ipfs" }
 
 [dev-dependencies]
 pallet-randomness-collective-flip = { version = "4.0.0-dev", default-features = false, path = "../randomness-collective-flip" }
@@ -43,6 +44,7 @@ std = [
     'sp-io/std',
     'sp-std/std',
     'pallet-tds-ipfs-core/std',
+    'pallet-tds-ipfs/std',
 ]
 
 runtime-benchmarks = ["frame-benchmarking"]
