@@ -1,42 +1,41 @@
 use crate::pallet::Config;
-use codec::{Decode, Encode, MaxEncodedLen};
-use frame_support::{
-	pallet_prelude::{Get, RuntimeDebug},
-	BoundedVec,
-};
+use codec::{Decode, Encode};
+use frame_support::pallet_prelude::RuntimeDebug;
 use scale_info::TypeInfo;
+use sp_std::vec::Vec;
 
 pub trait Sellable<AccountId, ResourceId> {
-	fn origin_owner(knowledge_block_id: ResourceId, account: AccountId) -> AccountId;
-	fn transfer(knowledge_block_id: ResourceId, from: AccountId, to: AccountId);
+	// fn origin_owner(block_number: ResourceId, account: AccountId) -> AccountId;
+	fn transfer(block_number: ResourceId, from: AccountId, to: AccountId);
 }
 
-#[derive(RuntimeDebug, Encode, Decode, Eq, PartialEq, Clone, TypeInfo, MaxEncodedLen)]
-#[scale_info(skip_type_params(S))]
+#[derive(RuntimeDebug, Encode, Decode, Eq, PartialEq, Clone, TypeInfo)]
+// #[scale_info(skip_type_params(S))] , S: Get<u32>
 #[codec(mel_bound())]
-pub struct Content<T: Config, S: Get<u32>> {
+pub struct Content<T: Config> {
 	pub owner: T::AccountId,
-	pub knowledge_block_id: T::KnowledgeBlockId,
-	// pub parent: T::KnowledgeBlockId,
-	// pub children: BoundedVec<T::KnowledgeBlockId, S>,
-	// pub previous: T::KnowledgeBlockId,
-	pub title: BoundedVec<u8, S>,
-	pub text: BoundedVec<u8, S>,
+	pub block_number: T::BlockNumber,
+	// pub parent: T::BlockNumber,
+	// pub children: BoundedVec<T::BlockNumber, S>,
+	// pub previous: T::BlockNumber,
+	pub title: Vec<u8>,
+	pub text: Vec<u8>,
 }
 
-impl<T: Config, S: Get<u32>> Content<T, S> {
+impl<T: Config> Content<T> {
+	// , S: Get<u32> , S
 	pub fn new(
 		owner: T::AccountId,
-		knowledge_block_id: T::KnowledgeBlockId,
-		// parent: T::KnowledgeBlockId,
-		// children: BoundedVec<T::KnowledgeBlockId, S>,
-		// previous: T::KnowledgeBlockId,
-		title: BoundedVec<u8, S>,
-		text: BoundedVec<u8, S>,
+		block_number: T::BlockNumber,
+		// parent: T::BlockNumber,
+		// children: BoundedVec<T::BlockNumber, S>,
+		// previous: T::BlockNumber,
+		title: Vec<u8>,
+		text: Vec<u8>,
 	) -> Self {
 		Content {
 			owner,
-			knowledge_block_id,
+			block_number,
 			// parent, children, previous, viewable, editable, ,
 			title,
 			text,
@@ -47,23 +46,23 @@ impl<T: Config, S: Get<u32>> Content<T, S> {
 		self.owner.clone()
 	}
 
-	pub fn knowledge_block_id(&self) -> T::KnowledgeBlockId {
-		self.knowledge_block_id.clone()
+	pub fn block_number(&self) -> T::BlockNumber {
+		self.block_number.clone()
 	}
 
-	pub fn title(&self) -> BoundedVec<u8, S> {
+	pub fn title(&self) -> Vec<u8> {
 		self.title.clone()
 	}
 
-	pub fn text(&self) -> BoundedVec<u8, S> {
+	pub fn text(&self) -> Vec<u8> {
 		self.text.clone()
 	}
 
-	pub fn set_title(&mut self, title: BoundedVec<u8, S>) {
+	pub fn set_title(&mut self, title: Vec<u8>) {
 		self.title = title;
 	}
 
-	pub fn set_text(&mut self, text: BoundedVec<u8, S>) {
+	pub fn set_text(&mut self, text: Vec<u8>) {
 		self.text = text;
 	}
 }

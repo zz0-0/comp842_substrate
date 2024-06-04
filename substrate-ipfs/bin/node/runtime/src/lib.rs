@@ -105,9 +105,9 @@ use constants::{currency::*, time::*};
 use sp_runtime::generic::Era;
 
 // Import pallets
-pub use pallet_knowledge_runtime_api;
 pub use pallet_knowledge;
 pub use pallet_knowledge_market;
+pub use pallet_knowledge_runtime_api;
 pub use pallet_tds_ipfs;
 pub use pallet_tds_ipfs_core;
 pub use pallet_tds_ipfs_runtime_api;
@@ -1625,8 +1625,8 @@ parameter_types! {
 impl pallet_knowledge::Config for Runtime {
 	// type AuthorityId = pallet_tds_ipfs::crypto::TestAuthId;
 	type RuntimeEvent = RuntimeEvent;
-	type MaxLength = MaxStringLength;
-	type KnowledgeBlockId = u32;
+	// type MaxLength = MaxStringLength;
+	// type KnowledgeBlockId = u32;
 }
 
 impl pallet_knowledge_market::Config for Runtime {
@@ -1993,6 +1993,16 @@ impl_runtime_apis! {
 	// 		// .unwrap_or(0)
 	// 	}
 	// }
+
+	impl pallet_knowledge_runtime_api::IpfsApi<Block> for Runtime {
+		// fn get_file_url_for_cid(cid_bytes: sp_std::vec::Vec<u8>) -> sp_std::vec::Vec<u8> {
+		// 	Ipfs::get_file_url_for_cid(cid_bytes)
+		// }
+
+		fn get_file_url_for_meta_data(meta_data: sp_std::vec::Vec<u8>) -> sp_std::vec::Vec<u8> {
+			Ipfs::get_file_url_for_meta_data(meta_data)
+		}
+	}
 
 	impl fg_primitives::GrandpaApi<Block> for Runtime {
 		fn grandpa_authorities() -> GrandpaAuthorityList {

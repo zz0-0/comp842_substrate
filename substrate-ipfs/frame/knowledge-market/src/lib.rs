@@ -110,93 +110,93 @@ pub mod pallet {
 		}
 
 		// set permission
-		#[pallet::call_index(1)]
-		#[pallet::weight(0)]
-		pub fn set_buyer_permission(
-			origin: OriginFor<T>,
-			knowledge_block_id: T::ResourceId,
-			viewable: bool,
-			editable: bool,
-			sellable: bool,
-		) -> DispatchResult {
-			let from = ensure_signed(origin)?;
+		// #[pallet::call_index(1)]
+		// #[pallet::weight(0)]
+		// pub fn set_buyer_permission(
+		// 	origin: OriginFor<T>,
+		// 	knowledge_block_id: T::ResourceId,
+		// 	viewable: bool,
+		// 	editable: bool,
+		// 	sellable: bool,
+		// ) -> DispatchResult {
+		// 	let from = ensure_signed(origin)?;
 
-			let origin_owner = T::Resource::origin_owner(knowledge_block_id, from.clone());
+		// 	let origin_owner = T::Resource::origin_owner(knowledge_block_id, from.clone());
 
-			ensure!(from == origin_owner, Error::<T>::NotOriginOwner);
+		// 	ensure!(from == origin_owner, Error::<T>::NotOriginOwner);
 
-			let permit = Permit::new(viewable, editable, sellable);
-			Permission::<T>::insert(knowledge_block_id, permit.clone());
-			Self::deposit_event(Event::<T>::PermissionSet {
-				owner: from.clone(),
-				knowledge_block_id,
-				permission: permit.clone(),
-			});
-			Ok(())
-		}
+		// 	let permit = Permit::new(viewable, editable, sellable);
+		// 	Permission::<T>::insert(knowledge_block_id, permit.clone());
+		// 	Self::deposit_event(Event::<T>::PermissionSet {
+		// 		owner: from.clone(),
+		// 		knowledge_block_id,
+		// 		permission: permit.clone(),
+		// 	});
+		// 	Ok(())
+		// }
 
 		// buy the knowledge block
-		#[pallet::call_index(2)]
-		#[pallet::weight(0)]
-		pub fn buy(
-			origin: OriginFor<T>,
-			seller: T::AccountId,
-			knowledge_block_id: T::ResourceId,
-		) -> DispatchResult {
-			let buyer = ensure_signed(origin)?;
+		// #[pallet::call_index(2)]
+		// #[pallet::weight(0)]
+		// pub fn buy(
+		// 	origin: OriginFor<T>,
+		// 	seller: T::AccountId,
+		// 	knowledge_block_id: T::ResourceId,
+		// ) -> DispatchResult {
+		// 	let buyer = ensure_signed(origin)?;
 
-			let result =
-				Permission::<T>::get(knowledge_block_id).ok_or(Error::<T>::PermissionNotSet);
+		// 	let result =
+		// 		Permission::<T>::get(knowledge_block_id).ok_or(Error::<T>::PermissionNotSet);
 
-			let permission = result.unwrap();
+		// 	let permission = result.unwrap();
 
-			let sale_data = KnowledgeBlockForSale::<T>::get(knowledge_block_id, seller.clone());
-			let pay = sale_data.price;
+		// 	let sale_data = KnowledgeBlockForSale::<T>::get(knowledge_block_id, seller.clone());
+		// 	let pay = sale_data.price;
 
-			// for different level of permissions, the price can also be set according
-			if permission.viewable {
-				pay.checked_add(&100_u32.checked_into().ok_or(Error::<T>::Overflow)?);
-			}
+		// 	// for different level of permissions, the price can also be set according
+		// 	if permission.viewable {
+		// 		pay.checked_add(&100_u32.checked_into().ok_or(Error::<T>::Overflow)?);
+		// 	}
 
-			if permission.editable {
-				pay.checked_add(&100_u32.checked_into().ok_or(Error::<T>::Overflow)?);
-			}
+		// 	if permission.editable {
+		// 		pay.checked_add(&100_u32.checked_into().ok_or(Error::<T>::Overflow)?);
+		// 	}
 
-			if permission.sellable {
-				pay.checked_add(&100_u32.checked_into().ok_or(Error::<T>::Overflow)?);
-			}
+		// 	if permission.sellable {
+		// 		pay.checked_add(&100_u32.checked_into().ok_or(Error::<T>::Overflow)?);
+		// 	}
 
-			// make royalties to original owner of the knowledge, pay 90% to the person you are
-			// buying from, pay 10% to original owner
-			let pay90 = pay
-				.checked_mul(&9_u32.checked_into().ok_or(Error::<T>::Overflow)?)
-				.ok_or(Error::<T>::Overflow)?;
-			let pay90 = pay90
-				.checked_div(&10_u32.checked_into().ok_or(Error::<T>::Overflow)?)
-				.ok_or(Error::<T>::Overflow)?;
-			let pay10 = pay
-				.checked_mul(&1_u32.checked_into().ok_or(Error::<T>::Overflow)?)
-				.ok_or(Error::<T>::Overflow)?;
-			let pay10 = pay10
-				.checked_div(&10_u32.checked_into().ok_or(Error::<T>::Overflow)?)
-				.ok_or(Error::<T>::Overflow)?;
+		// 	// make royalties to original owner of the knowledge, pay 90% to the person you are
+		// 	// buying from, pay 10% to original owner
+		// 	let pay90 = pay
+		// 		.checked_mul(&9_u32.checked_into().ok_or(Error::<T>::Overflow)?)
+		// 		.ok_or(Error::<T>::Overflow)?;
+		// 	let pay90 = pay90
+		// 		.checked_div(&10_u32.checked_into().ok_or(Error::<T>::Overflow)?)
+		// 		.ok_or(Error::<T>::Overflow)?;
+		// 	let pay10 = pay
+		// 		.checked_mul(&1_u32.checked_into().ok_or(Error::<T>::Overflow)?)
+		// 		.ok_or(Error::<T>::Overflow)?;
+		// 	let pay10 = pay10
+		// 		.checked_div(&10_u32.checked_into().ok_or(Error::<T>::Overflow)?)
+		// 		.ok_or(Error::<T>::Overflow)?;
 
-			T::Currency::transfer(&buyer, &seller, pay90, KeepAlive)?;
+		// 	T::Currency::transfer(&buyer, &seller, pay90, KeepAlive)?;
 
-			let origin_owner = T::Resource::origin_owner(knowledge_block_id, seller.clone());
+		// 	let origin_owner = T::Resource::origin_owner(knowledge_block_id, seller.clone());
 
-			T::Currency::transfer(&buyer, &origin_owner, pay10, KeepAlive)?;
-			// transfer the knowledge to buyers
+		// 	T::Currency::transfer(&buyer, &origin_owner, pay10, KeepAlive)?;
+		// 	// transfer the knowledge to buyers
 
-			let _ = T::Resource::transfer(knowledge_block_id, seller.clone(), buyer.clone());
+		// 	let _ = T::Resource::transfer(knowledge_block_id, seller.clone(), buyer.clone());
 
-			Self::deposit_event(Event::<T>::Sold(
-				knowledge_block_id,
-				buyer.clone(),
-				seller.clone(),
-			));
+		// 	Self::deposit_event(Event::<T>::Sold(
+		// 		knowledge_block_id,
+		// 		buyer.clone(),
+		// 		seller.clone(),
+		// 	));
 
-			Ok(())
-		}
+		// 	Ok(())
+		// }
 	}
 }

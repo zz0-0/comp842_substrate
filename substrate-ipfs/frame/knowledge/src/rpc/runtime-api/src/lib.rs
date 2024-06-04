@@ -7,8 +7,8 @@ sp_api::decl_runtime_apis! {
 		fn get_value() -> u32;
 	}
 
-	pub trait TDSIpfsApi {
-        fn get_file_url_for_cid(cid_bytes: sp_std::vec::Vec<u8>) -> sp_std::vec::Vec<u8>;
+	pub trait IpfsApi {
+		// fn get_file_url_for_cid(cid_bytes: sp_std::vec::Vec<u8>) -> sp_std::vec::Vec<u8>;
 		fn get_file_url_for_meta_data(meta_data: sp_std::vec::Vec<u8>) -> sp_std::vec::Vec<u8>;
-    }
+	}
 }
