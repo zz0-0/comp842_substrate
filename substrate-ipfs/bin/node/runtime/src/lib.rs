@@ -1624,6 +1624,7 @@ parameter_types! {
 
 impl pallet_knowledge::Config for Runtime {
 	// type AuthorityId = pallet_tds_ipfs::crypto::TestAuthId;
+	type AuthorityId = pallet_tds_ipfs::crypto::TestAuthId;
 	type RuntimeEvent = RuntimeEvent;
 	// type MaxLength = MaxStringLength;
 	// type KnowledgeBlockId = u32;
